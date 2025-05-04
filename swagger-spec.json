@@ -1,0 +1,545 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/users": {
+      "post": {
+        "operationId": "UsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
+          }
+        },
+        "summary": "Criar novo usuário",
+        "tags": [
+          "Usuários"
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de usuários retornada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateUserDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar todos os usuários",
+        "tags": [
+          "Usuários"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        },
+        "summary": "Buscar usuário por ID",
+        "tags": [
+          "Usuários"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        },
+        "summary": "Atualizar usuário",
+        "tags": [
+          "Usuários"
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário removido com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          }
+        },
+        "summary": "Remover usuário",
+        "tags": [
+          "Usuários"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Heat Me Up API",
+    "description": "API para videochat com amigos e desconhecidos.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email do usuário",
+            "example": "usuario@exemplo.com"
+          },
+          "username": {
+            "type": "string",
+            "description": "Nome de usuário",
+            "example": "johndoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "Senha do usuário (mínimo 6 caracteres)",
+            "example": "senha123",
+            "minLength": 6
+          },
+          "socialProvider": {
+            "type": "string",
+            "description": "Provedor de autenticação social",
+            "enum": [
+              "google",
+              "facebook",
+              "twitter",
+              "none"
+            ],
+            "example": "google"
+          },
+          "age": {
+            "type": "number",
+            "description": "Idade do usuário",
+            "example": 25
+          },
+          "height": {
+            "type": "number",
+            "description": "Altura do usuário em centímetros",
+            "example": 180
+          },
+          "weight": {
+            "type": "number",
+            "description": "Peso do usuário em quilogramas",
+            "example": 75
+          },
+          "bodyHair": {
+            "type": "string",
+            "description": "Pelos corporais",
+            "enum": [
+              "hairy",
+              "trimmed",
+              "smooth",
+              "waxed",
+              "shaved",
+              "partially hairy"
+            ],
+            "example": "smooth"
+          },
+          "skinColor": {
+            "type": "string",
+            "description": "Cor da pele",
+            "enum": [
+              "type_1",
+              "type_2",
+              "type_3",
+              "type_4",
+              "type_5",
+              "type_6",
+              "mixed",
+              "other"
+            ],
+            "example": "type_1"
+          },
+          "hairColor": {
+            "type": "string",
+            "description": "Cor do cabelo",
+            "enum": [
+              "blonde",
+              "brunette",
+              "light brown",
+              "dark brown",
+              "black",
+              "red",
+              "auburn",
+              "gray",
+              "white",
+              "bald",
+              "dyed",
+              "other"
+            ],
+            "example": "blonde"
+          },
+          "eyeColor": {
+            "type": "string",
+            "description": "Cor dos olhos",
+            "enum": [
+              "honey",
+              "light brown",
+              "dark brown",
+              "light blue",
+              "dark blue",
+              "light green",
+              "dark green",
+              "black",
+              "gray",
+              "hazel",
+              "amber",
+              "heterochromia",
+              "other"
+            ],
+            "example": "light blue"
+          },
+          "preferredPosition": {
+            "type": "string",
+            "description": "Posição preferida",
+            "enum": [
+              "top",
+              "bottom",
+              "versatile",
+              "versatile + top",
+              "versatile + bottom",
+              "no penetration"
+            ],
+            "example": "versatile"
+          },
+          "tribe": {
+            "type": "array",
+            "description": "Tribo",
+            "example": [
+              "cub",
+              "chubby"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "twink",
+                "bear",
+                "chubby",
+                "cahser",
+                "daddy",
+                "jock",
+                "drag",
+                "otter",
+                "geek",
+                "leather",
+                "cub",
+                "chub",
+                "twunk",
+                "wolf",
+                "butch",
+                "femme",
+                "androgynous",
+                "trans",
+                "queer",
+                "non binary",
+                "genderfluid",
+                "other"
+              ]
+            }
+          },
+          "relationshipStatus": {
+            "type": "string",
+            "description": "Status de relacionamento",
+            "enum": [
+              "single",
+              "married",
+              "open_relationship",
+              "widowed",
+              "divorced",
+              "separated",
+              "complicated",
+              "polyamorous"
+            ],
+            "example": "single"
+          }
+        }
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email do usuário",
+            "example": "usuario@exemplo.com"
+          },
+          "username": {
+            "type": "string",
+            "description": "Nome de usuário",
+            "example": "johndoe"
+          },
+          "socialProvider": {
+            "type": "string",
+            "description": "Provedor de autenticação social",
+            "enum": [
+              "google",
+              "facebook",
+              "twitter",
+              "none"
+            ],
+            "example": "google"
+          },
+          "age": {
+            "type": "number",
+            "description": "Idade do usuário",
+            "example": 25
+          },
+          "height": {
+            "type": "number",
+            "description": "Altura do usuário em centímetros",
+            "example": 180
+          },
+          "weight": {
+            "type": "number",
+            "description": "Peso do usuário em quilogramas",
+            "example": 75
+          },
+          "bodyHair": {
+            "type": "string",
+            "description": "Pelos corporais",
+            "enum": [
+              "hairy",
+              "trimmed",
+              "smooth",
+              "waxed",
+              "shaved",
+              "partially hairy"
+            ],
+            "example": "smooth"
+          },
+          "skinColor": {
+            "type": "string",
+            "description": "Cor da pele",
+            "enum": [
+              "type_1",
+              "type_2",
+              "type_3",
+              "type_4",
+              "type_5",
+              "type_6",
+              "mixed",
+              "other"
+            ],
+            "example": "type_1"
+          },
+          "hairColor": {
+            "type": "string",
+            "description": "Cor do cabelo",
+            "enum": [
+              "blonde",
+              "brunette",
+              "light brown",
+              "dark brown",
+              "black",
+              "red",
+              "auburn",
+              "gray",
+              "white",
+              "bald",
+              "dyed",
+              "other"
+            ],
+            "example": "blonde"
+          },
+          "eyeColor": {
+            "type": "string",
+            "description": "Cor dos olhos",
+            "enum": [
+              "honey",
+              "light brown",
+              "dark brown",
+              "light blue",
+              "dark blue",
+              "light green",
+              "dark green",
+              "black",
+              "gray",
+              "hazel",
+              "amber",
+              "heterochromia",
+              "other"
+            ],
+            "example": "light blue"
+          },
+          "preferredPosition": {
+            "type": "string",
+            "description": "Posição preferida",
+            "enum": [
+              "top",
+              "bottom",
+              "versatile",
+              "versatile + top",
+              "versatile + bottom",
+              "no penetration"
+            ],
+            "example": "versatile"
+          },
+          "tribe": {
+            "type": "array",
+            "description": "Tribo",
+            "example": [
+              "cub",
+              "chubby"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "twink",
+                "bear",
+                "chubby",
+                "cahser",
+                "daddy",
+                "jock",
+                "drag",
+                "otter",
+                "geek",
+                "leather",
+                "cub",
+                "chub",
+                "twunk",
+                "wolf",
+                "butch",
+                "femme",
+                "androgynous",
+                "trans",
+                "queer",
+                "non binary",
+                "genderfluid",
+                "other"
+              ]
+            }
+          },
+          "relationshipStatus": {
+            "type": "string",
+            "description": "Status de relacionamento",
+            "enum": [
+              "single",
+              "married",
+              "open_relationship",
+              "widowed",
+              "divorced",
+              "separated",
+              "complicated",
+              "polyamorous"
+            ],
+            "example": "single"
+          },
+          "id": {
+            "type": "string",
+            "description": "ID do usuário",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  }
+}
