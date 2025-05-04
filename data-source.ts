@@ -7,6 +7,7 @@ import {
   DB_PORT,
   DB_USERNAME,
 } from 'src/constants/envs';
+import { UserProfile } from 'src/modules/profiles/entities/user-profile.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -15,6 +16,6 @@ export default new DataSource({
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_NAME,
-  entities: [User],
+  entities: [User, UserProfile],
   migrations: ['src/migrations/*.ts'],
 });

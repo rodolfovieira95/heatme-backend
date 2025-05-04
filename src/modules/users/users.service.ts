@@ -4,13 +4,17 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserRole } from './interfaces';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   create(createUserDto: CreateUserDto) {
-    const user = this.repo.create(createUserDto);
+    const user = this.repo.create({
+      ...createUserDto,
+      role: createUserDto.role || UserRole.USER,
+    });
     return this.repo.save(user);
   }
 
@@ -20,6 +24,28 @@ export class UsersService {
 
   findOne(id: string) {
     return this.repo.findOne({ where: { id } });
+  }
+
+  findByEmail(email: string) {
+    return this.repo.findOne({ where: { email } });
+  }
+
+  findByEmailWithPassword(email: string) {
+    return this.repo.findOne({
+      where: { email },
+      select: [
+        'id',
+        'email',
+        'password',
+        'username',
+        'isAnonymous',
+        'isPremium',
+        'socialProvider',
+        'avatarUrl',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {

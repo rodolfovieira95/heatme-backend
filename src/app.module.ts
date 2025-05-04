@@ -4,6 +4,7 @@ import { ChatService } from './chat.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/users/entities/user.entity';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 import {
   DB_HOST,
   DB_NAME,
@@ -11,11 +12,8 @@ import {
   DB_PORT,
   DB_USERNAME,
 } from './constants/envs';
-
-console.log({
-  DB_HOST,
-  DB_NAME,
-});
+import { ProfilesModule } from './modules/profiles/profiles.module';
+import { UserProfile } from './modules/profiles/entities/user-profile.entity';
 
 @Module({
   imports: [
@@ -26,10 +24,12 @@ console.log({
       username: DB_USERNAME,
       password: DB_PASSWORD,
       database: DB_NAME,
-      entities: [User],
+      entities: [User, UserProfile],
       synchronize: false,
     }),
     UsersModule,
+    AuthModule,
+    ProfilesModule,
   ],
   providers: [ChatGateway, ChatService],
 })

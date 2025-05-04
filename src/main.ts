@@ -20,6 +20,7 @@ async function bootstrap() {
   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document, null, 2));
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
   await app.listen(3001);
   console.log(`🚀 Backend rodando em http://localhost:3001`);
 }

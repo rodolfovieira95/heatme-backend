@@ -5,16 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {
-  BodyHairEnum,
-  EyeColorEnum,
-  HairColorEnum,
-  RelationshipStatusEnum,
-  SexualPreferenceEnum,
-  SkinColorEnum,
-  SocialProviderEnum,
-  TribeEnum,
-} from '../interfaces';
+import { SocialProviderEnum, UserRole } from '../interfaces';
 
 @Entity('users')
 export class User {
@@ -46,63 +37,12 @@ export class User {
   @Column({ nullable: true })
   avatarUrl: string;
 
-  @Column({ nullable: true })
-  age: number;
-
-  @Column({ nullable: true })
-  height: number;
-
-  @Column({ nullable: true })
-  weight: number;
-
   @Column({
     type: 'enum',
-    enum: BodyHairEnum,
-    nullable: true,
+    enum: UserRole,
+    default: UserRole.USER,
   })
-  bodyHair: BodyHairEnum;
-
-  @Column({
-    type: 'enum',
-    enum: SkinColorEnum,
-    nullable: true,
-  })
-  skinColor: SkinColorEnum;
-
-  @Column({
-    type: 'enum',
-    enum: HairColorEnum,
-    nullable: true,
-  })
-  hairColor: HairColorEnum;
-
-  @Column({
-    type: 'enum',
-    enum: EyeColorEnum,
-    nullable: true,
-  })
-  eyeColor: EyeColorEnum;
-
-  @Column({
-    type: 'enum',
-    enum: SexualPreferenceEnum,
-    nullable: true,
-  })
-  preferredPosition: SexualPreferenceEnum;
-
-  @Column('enum', {
-    enum: TribeEnum,
-    array: true,
-    nullable: true,
-  })
-  tribe: TribeEnum[];
-
-  @Column({
-    type: 'enum',
-    enum: RelationshipStatusEnum,
-    nullable: true,
-  })
-  relationshipStatus: RelationshipStatusEnum;
+  role: UserRole;
 
   @CreateDateColumn()
   createdAt: Date;
