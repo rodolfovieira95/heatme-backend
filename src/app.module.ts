@@ -14,6 +14,8 @@ import {
 } from './constants/envs';
 import { ProfilesModule } from './modules/profiles/profiles.module';
 import { UserProfile } from './modules/profiles/entities/user-profile.entity';
+import { Friendship } from './modules/friendships/entities/friendship.entity';
+import { FriendshipsModule } from './modules/friendships/friendships.module';
 
 @Module({
   imports: [
@@ -24,12 +26,13 @@ import { UserProfile } from './modules/profiles/entities/user-profile.entity';
       username: DB_USERNAME,
       password: DB_PASSWORD,
       database: DB_NAME,
-      entities: [User, UserProfile],
+      entities: [User, UserProfile, Friendship],
       synchronize: false,
     }),
     UsersModule,
     AuthModule,
     ProfilesModule,
+    FriendshipsModule,
   ],
   providers: [ChatGateway, ChatService],
 })

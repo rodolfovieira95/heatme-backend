@@ -299,6 +299,143 @@
           "Profiles"
         ]
       }
+    },
+    "/friends/{userId}": {
+      "post": {
+        "operationId": "FriendshipsController_sendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário que receberá a solicitação",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Solicitação de amizade enviada com sucesso"
+          },
+          "400": {
+            "description": "Parâmetros inválidos"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Enviar solicitação de amizade",
+        "tags": [
+          "Amizades"
+        ]
+      },
+      "patch": {
+        "operationId": "FriendshipsController_updateStatus",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário da amizade",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFriendshipStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status da amizade atualizado com sucesso"
+          },
+          "400": {
+            "description": "Parâmetros inválidos"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualizar status da amizade",
+        "tags": [
+          "Amizades"
+        ]
+      },
+      "delete": {
+        "operationId": "FriendshipsController_removeFriend",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "description": "ID do usuário da amizade",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amizade removida com sucesso"
+          },
+          "400": {
+            "description": "Parâmetros inválidos"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remover amizade",
+        "tags": [
+          "Amizades"
+        ]
+      }
+    },
+    "/friends": {
+      "get": {
+        "operationId": "FriendshipsController_listFriends",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Lista de amigos retornada com sucesso"
+          },
+          "401": {
+            "description": "Não autorizado"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Listar amigos",
+        "tags": [
+          "Amizades"
+        ]
+      }
     }
   },
   "info": {
@@ -581,6 +718,33 @@
       "UpdateUserProfileDto": {
         "type": "object",
         "properties": {}
+      },
+      "FriendshipStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "accepted",
+          "rejected",
+          "blocked"
+        ],
+        "description": "Status da amizade"
+      },
+      "UpdateFriendshipStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "Status da amizade",
+            "example": "accepted",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FriendshipStatus"
+              }
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
       }
     }
   }
