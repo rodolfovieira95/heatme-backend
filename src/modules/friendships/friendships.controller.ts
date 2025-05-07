@@ -84,4 +84,9 @@ export class FriendshipsController {
   listFriends(@CurrentUser() user: User) {
     return this.service.listFriends(user.id);
   }
+
+  @Get('pending')
+  getPending(@CurrentUser() user: User) {
+    return this.service.getPendingFriendRequests(user.id);
+  }
 }

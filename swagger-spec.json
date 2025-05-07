@@ -436,6 +436,25 @@
           "Amizades"
         ]
       }
+    },
+    "/friends/pending": {
+      "get": {
+        "operationId": "FriendshipsController_getPending",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "Amizades"
+        ]
+      }
     }
   },
   "info": {

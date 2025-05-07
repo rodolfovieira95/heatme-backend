@@ -94,4 +94,15 @@ export class FriendshipsService {
       f.requester.id === userId ? f.receiver : f.requester,
     );
   }
+
+  getPendingFriendRequests(userId: string) {
+    return this.repo.find({
+      where: {
+        receiver: { id: userId },
+        status: FriendshipStatus.PENDING,
+      },
+      relations: ['requester'],
+      order: { createdAt: 'DESC' },
+    });
+  }
 }
