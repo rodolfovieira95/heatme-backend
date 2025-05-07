@@ -455,6 +455,58 @@
           "Amizades"
         ]
       }
+    },
+    "/messages": {
+      "post": {
+        "operationId": "MessagesController_sendMessage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Messages"
+        ]
+      }
+    },
+    "/messages/{friendId}": {
+      "get": {
+        "operationId": "MessagesController_getMessages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Messages"
+        ]
+      }
+    },
+    "/messages/recent": {
+      "get": {
+        "operationId": "MessagesController_getRecentMessages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Messages"
+        ]
+      }
     }
   },
   "info": {
@@ -764,6 +816,10 @@
         "required": [
           "status"
         ]
+      },
+      "CreateMessageDto": {
+        "type": "object",
+        "properties": {}
       }
     }
   }

@@ -16,6 +16,8 @@ import { ProfilesModule } from './modules/profiles/profiles.module';
 import { UserProfile } from './modules/profiles/entities/user-profile.entity';
 import { Friendship } from './modules/friendships/entities/friendship.entity';
 import { FriendshipsModule } from './modules/friendships/friendships.module';
+import { MessagesModule } from './modules/chatmessages/messages.module';
+import { ChatMessage } from './modules/chatmessages/entities/chat-message.entity';
 
 @Module({
   imports: [
@@ -26,13 +28,14 @@ import { FriendshipsModule } from './modules/friendships/friendships.module';
       username: DB_USERNAME,
       password: DB_PASSWORD,
       database: DB_NAME,
-      entities: [User, UserProfile, Friendship],
+      entities: [User, UserProfile, Friendship, ChatMessage],
       synchronize: false,
     }),
     UsersModule,
     AuthModule,
     ProfilesModule,
     FriendshipsModule,
+    MessagesModule,
   ],
   providers: [ChatGateway, ChatService],
 })

@@ -9,6 +9,7 @@ import {
 } from 'src/constants/envs';
 import { UserProfile } from 'src/modules/profiles/entities/user-profile.entity';
 import { Friendship } from 'src/modules/friendships/entities/friendship.entity';
+import { ChatMessage } from 'src/modules/chatmessages/entities/chat-message.entity';
 
 export default new DataSource({
   type: 'postgres',
@@ -17,6 +18,6 @@ export default new DataSource({
   username: DB_USERNAME,
   password: DB_PASSWORD,
   database: DB_NAME,
-  entities: [User, UserProfile, Friendship],
+  entities: [User, UserProfile, Friendship, ChatMessage],
   migrations: ['src/migrations/*.ts'],
 });
