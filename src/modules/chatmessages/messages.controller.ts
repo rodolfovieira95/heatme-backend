@@ -16,16 +16,16 @@ export class MessagesController {
     return this.messagesService.sendMessage(user.id, dto);
   }
 
+  @Get('recent')
+  async getRecentMessages(@CurrentUser() user: User) {
+    return this.messagesService.getRecentMessages(user.id);
+  }
+
   @Get(':friendId')
   async getMessages(
     @CurrentUser() user: User,
     @Param() params: GetMessagesDto,
   ) {
     return this.messagesService.getMessages(user.id, params.friendId);
-  }
-
-  @Get('recent')
-  async getRecentMessages(@CurrentUser() user: User) {
-    return this.messagesService.getRecentMessages(user.id);
   }
 }

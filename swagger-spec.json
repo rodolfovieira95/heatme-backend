@@ -508,9 +508,9 @@
         ]
       }
     },
-    "/messages/{friendId}": {
+    "/messages/recent": {
       "get": {
-        "operationId": "MessagesController_getMessages",
+        "operationId": "MessagesController_getRecentMessages",
         "parameters": [],
         "responses": {
           "200": {
@@ -522,9 +522,9 @@
         ]
       }
     },
-    "/messages/recent": {
+    "/messages/{friendId}": {
       "get": {
-        "operationId": "MessagesController_getRecentMessages",
+        "operationId": "MessagesController_getMessages",
         "parameters": [],
         "responses": {
           "200": {
