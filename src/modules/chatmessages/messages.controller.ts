@@ -16,7 +16,8 @@ export class MessagesController {
     @CurrentUser() user: { userId: string; role: string },
     @Body() dto: CreateMessageDto,
   ) {
-    return this.messagesService.sendMessage(user.userId, dto);
+    const result = await this.messagesService.sendMessage(user.userId, dto);
+    return result;
   }
 
   @Get('recent')
