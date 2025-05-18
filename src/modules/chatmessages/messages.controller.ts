@@ -12,8 +12,11 @@ export class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
   @Post()
-  async sendMessage(@CurrentUser() user: User, @Body() dto: CreateMessageDto) {
-    return this.messagesService.sendMessage(user.id, dto);
+  async sendMessage(
+    @CurrentUser() user: { userId: string; role: string },
+    @Body() dto: CreateMessageDto,
+  ) {
+    return this.messagesService.sendMessage(user.userId, dto);
   }
 
   @Get('recent')

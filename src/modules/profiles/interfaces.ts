@@ -52,7 +52,7 @@ export enum TribeEnum {
   TWINK = 'twink',
   BEAR = 'bear',
   CHUBBY = 'chubby',
-  CHASER = 'cahser',
+  CHASER = 'chaser',
   DADDY = 'daddy',
   JOCK = 'jock',
   DRAG = 'drag',

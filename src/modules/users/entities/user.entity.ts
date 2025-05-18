@@ -4,8 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
 import { SocialProviderEnum, UserRole } from '../interfaces';
+import { UserProfile } from 'src/modules/profiles/entities/user-profile.entity';
 
 @Entity('users')
 export class User {
@@ -34,15 +36,15 @@ export class User {
   })
   socialProvider: SocialProviderEnum | null;
 
-  @Column({ nullable: true })
-  avatarUrl: string;
-
   @Column({
     type: 'enum',
     enum: UserRole,
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @OneToOne(() => UserProfile, (profile) => profile.user)
+  profile: UserProfile;
 
   @CreateDateColumn()
   createdAt: Date;

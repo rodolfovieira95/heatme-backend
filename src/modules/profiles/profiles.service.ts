@@ -49,9 +49,9 @@ export class ProfilesService {
     return this.profileRepo.save(profile);
   }
 
-  async findByUser(user: User) {
+  async findByUser(user: { userId: string }) {
     const profile = await this.profileRepo.findOne({
-      where: { user: { id: user.id } },
+      where: { user: { id: user.userId } },
       relations: ['user'],
     });
     if (!profile) throw new NotFoundException('Perfil não encontrado');

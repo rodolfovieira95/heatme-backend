@@ -73,7 +73,7 @@ export class MessagesService {
         { fromUser: { id: userId }, toUser: { id: friendId } },
         { fromUser: { id: friendId }, toUser: { id: userId } },
       ],
-      order: { timestamp: 'ASC' },
+      order: { createdAt: 'ASC' },
     });
   }
 
@@ -83,7 +83,7 @@ export class MessagesService {
       .leftJoinAndSelect('message.fromUser', 'fromUser')
       .leftJoinAndSelect('message.toUser', 'toUser')
       .where('fromUser.id = :userId OR toUser.id = :userId', { userId })
-      .orderBy('message.timestamp', 'DESC')
+      .orderBy('message.createdAt', 'DESC')
       .getMany();
 
     const seen = new Set();
@@ -97,9 +97,8 @@ export class MessagesService {
         recent.push({
           userId: otherUser.id,
           username: otherUser.username,
-          avatarUrl: otherUser.avatarUrl,
           lastMessage: msg.content,
-          timestamp: msg.timestamp,
+          timestamp: msg.createdAt,
         });
       }
     }

@@ -274,11 +274,309 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Perfil encontrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "123e4567-e89b-12d3-a456-426614174000",
+                      "description": "ID único do perfil"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "123e4567-e89b-12d3-a456-426614174000",
+                          "description": "ID do usuário"
+                        },
+                        "email": {
+                          "type": "string",
+                          "example": "usuario@exemplo.com",
+                          "description": "Email do usuário"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "usuario123",
+                          "description": "Nome de usuário"
+                        },
+                        "isAnonymous": {
+                          "type": "boolean",
+                          "example": false,
+                          "description": "Indica se o usuário é anônimo"
+                        },
+                        "isPremium": {
+                          "type": "boolean",
+                          "example": false,
+                          "description": "Indica se o usuário é premium"
+                        },
+                        "socialProvider": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": null,
+                          "description": "Provedor de autenticação social"
+                        },
+                        "role": {
+                          "type": "string",
+                          "enum": [
+                            "anonymous",
+                            "user",
+                            "premium",
+                            "admin"
+                          ],
+                          "example": "user",
+                          "description": "Papel do usuário no sistema"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2024-03-20T10:00:00.000Z",
+                          "description": "Data de criação do usuário"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2024-03-20T10:00:00.000Z",
+                          "description": "Data da última atualização do usuário"
+                        }
+                      }
+                    },
+                    "avatarUrl": {
+                      "type": "string",
+                      "example": "https://example.com/avatar.jpg",
+                      "description": "URL do avatar do usuário",
+                      "nullable": true
+                    },
+                    "displayName": {
+                      "type": "string",
+                      "example": "João Silva",
+                      "description": "Nome de exibição do usuário",
+                      "nullable": true
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "male",
+                        "female",
+                        "non binary",
+                        "gender fluid",
+                        "agender",
+                        "transgender male",
+                        "transgender female",
+                        "intersex",
+                        "two spirit",
+                        "other",
+                        "prefer not to say"
+                      ],
+                      "example": "male",
+                      "description": "Gênero do usuário",
+                      "nullable": true
+                    },
+                    "country": {
+                      "type": "string",
+                      "example": "Brasil",
+                      "description": "País do usuário",
+                      "nullable": true
+                    },
+                    "city": {
+                      "type": "string",
+                      "example": "São Paulo",
+                      "description": "Cidade do usuário",
+                      "nullable": true
+                    },
+                    "bio": {
+                      "type": "string",
+                      "example": "Olá, sou um desenvolvedor apaixonado por tecnologia!",
+                      "description": "Biografia do usuário",
+                      "nullable": true
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "tecnologia",
+                        "programação",
+                        "música"
+                      ],
+                      "description": "Tags associadas ao perfil"
+                    },
+                    "age": {
+                      "type": "number",
+                      "example": 25,
+                      "description": "Idade do usuário",
+                      "nullable": true
+                    },
+                    "height": {
+                      "type": "number",
+                      "example": 180,
+                      "description": "Altura do usuário em centímetros",
+                      "nullable": true
+                    },
+                    "weight": {
+                      "type": "number",
+                      "example": 75,
+                      "description": "Peso do usuário em quilogramas",
+                      "nullable": true
+                    },
+                    "bodyHair": {
+                      "type": "string",
+                      "enum": [
+                        "hairy",
+                        "trimmed",
+                        "smooth",
+                        "waxed",
+                        "shaved",
+                        "partially hairy"
+                      ],
+                      "example": "smooth",
+                      "description": "Pelos corporais",
+                      "nullable": true
+                    },
+                    "skinColor": {
+                      "type": "string",
+                      "enum": [
+                        "type_1",
+                        "type_2",
+                        "type_3",
+                        "type_4",
+                        "type_5",
+                        "type_6",
+                        "mixed",
+                        "other"
+                      ],
+                      "example": "type_1",
+                      "description": "Cor da pele",
+                      "nullable": true
+                    },
+                    "hairColor": {
+                      "type": "string",
+                      "enum": [
+                        "blonde",
+                        "brunette",
+                        "light brown",
+                        "dark brown",
+                        "black",
+                        "red",
+                        "auburn",
+                        "gray",
+                        "white",
+                        "bald",
+                        "dyed",
+                        "other"
+                      ],
+                      "example": "blonde",
+                      "description": "Cor do cabelo",
+                      "nullable": true
+                    },
+                    "eyeColor": {
+                      "type": "string",
+                      "enum": [
+                        "honey",
+                        "light brown",
+                        "dark brown",
+                        "light blue",
+                        "dark blue",
+                        "light green",
+                        "dark green",
+                        "black",
+                        "gray",
+                        "hazel",
+                        "amber",
+                        "heterochromia",
+                        "other"
+                      ],
+                      "example": "light brown",
+                      "description": "Cor dos olhos",
+                      "nullable": true
+                    },
+                    "preferredPosition": {
+                      "type": "string",
+                      "enum": [
+                        "top",
+                        "bottom",
+                        "versatile",
+                        "versatile + top",
+                        "versatile + bottom",
+                        "no penetration"
+                      ],
+                      "example": "versatile",
+                      "description": "Posição sexual preferida",
+                      "nullable": true
+                    },
+                    "tribe": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "twink",
+                          "bear",
+                          "chubby",
+                          "chaser",
+                          "daddy",
+                          "jock",
+                          "drag",
+                          "otter",
+                          "geek",
+                          "leather",
+                          "cub",
+                          "chub",
+                          "twunk",
+                          "wolf",
+                          "butch",
+                          "femme",
+                          "androgynous",
+                          "trans",
+                          "queer",
+                          "non binary",
+                          "genderfluid",
+                          "other"
+                        ]
+                      },
+                      "example": [
+                        "cub",
+                        "chubby"
+                      ],
+                      "description": "Tribos associadas ao usuário",
+                      "nullable": true
+                    },
+                    "relationshipStatus": {
+                      "type": "string",
+                      "enum": [
+                        "single",
+                        "married",
+                        "open_relationship",
+                        "widowed",
+                        "divorced",
+                        "separated",
+                        "complicated",
+                        "polyamorous"
+                      ],
+                      "example": "single",
+                      "description": "Status de relacionamento",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Perfil não encontrado"
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Obter perfil do usuário atual",
         "tags": [
-          "Profiles"
+          "Perfis"
         ]
       }
     },
@@ -298,11 +596,27 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Perfil criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Criar novo perfil",
         "tags": [
-          "Profiles"
+          "Perfis"
         ]
       },
       "patch": {
@@ -320,11 +634,30 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Perfil atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos fornecidos"
+          },
+          "404": {
+            "description": "Perfil não encontrado"
           }
         },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Atualizar perfil existente",
         "tags": [
-          "Profiles"
+          "Perfis"
         ]
       }
     },
@@ -525,7 +858,18 @@
     "/messages/{friendId}": {
       "get": {
         "operationId": "MessagesController_getMessages",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "path",
+            "description": "Id do usuário",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": ""
@@ -543,7 +887,24 @@
     "version": "1.0",
     "contact": {}
   },
-  "tags": [],
+  "tags": [
+    {
+      "name": "Autenticação",
+      "description": "Endpoints de autenticação"
+    },
+    {
+      "name": "Usuários",
+      "description": "Gerenciamento de usuários"
+    },
+    {
+      "name": "Amizades",
+      "description": "Gerenciamento de amizades"
+    },
+    {
+      "name": "Mensagens",
+      "description": "Gerenciamento de mensagens"
+    }
+  ],
   "servers": [],
   "components": {
     "securitySchemes": {
@@ -775,7 +1136,7 @@
                 "twink",
                 "bear",
                 "chubby",
-                "cahser",
+                "chaser",
                 "daddy",
                 "jock",
                 "drag",
@@ -814,6 +1175,261 @@
           }
         }
       },
+      "User": {
+        "type": "object",
+        "properties": {}
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID único do perfil",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "URL do avatar do usuário",
+            "example": "https://example.com/avatar.jpg",
+            "nullable": true
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Nome de exibição do usuário",
+            "example": "João Silva",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "description": "Gênero do usuário",
+            "enum": [
+              "male",
+              "female",
+              "non binary",
+              "gender fluid",
+              "agender",
+              "transgender male",
+              "transgender female",
+              "intersex",
+              "two spirit",
+              "other",
+              "prefer not to say"
+            ],
+            "example": "male",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "description": "País do usuário",
+            "example": "Brasil",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "description": "Cidade do usuário",
+            "example": "São Paulo",
+            "nullable": true
+          },
+          "bio": {
+            "type": "string",
+            "description": "Biografia do usuário",
+            "example": "Olá, sou um desenvolvedor apaixonado por tecnologia!",
+            "nullable": true
+          },
+          "tags": {
+            "description": "Tags associadas ao perfil",
+            "example": [
+              "tecnologia",
+              "programação",
+              "música"
+            ],
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "age": {
+            "type": "number",
+            "description": "Idade do usuário",
+            "example": 25,
+            "nullable": true
+          },
+          "height": {
+            "type": "number",
+            "description": "Altura do usuário em centímetros",
+            "example": 180,
+            "nullable": true
+          },
+          "weight": {
+            "type": "number",
+            "description": "Peso do usuário em quilogramas",
+            "example": 75,
+            "nullable": true
+          },
+          "bodyHair": {
+            "type": "string",
+            "description": "Pelos corporais",
+            "enum": [
+              "hairy",
+              "trimmed",
+              "smooth",
+              "waxed",
+              "shaved",
+              "partially hairy"
+            ],
+            "example": "smooth",
+            "nullable": true
+          },
+          "skinColor": {
+            "type": "string",
+            "description": "Cor da pele",
+            "enum": [
+              "type_1",
+              "type_2",
+              "type_3",
+              "type_4",
+              "type_5",
+              "type_6",
+              "mixed",
+              "other"
+            ],
+            "example": "type_1",
+            "nullable": true
+          },
+          "hairColor": {
+            "type": "string",
+            "description": "Cor do cabelo",
+            "enum": [
+              "blonde",
+              "brunette",
+              "light brown",
+              "dark brown",
+              "black",
+              "red",
+              "auburn",
+              "gray",
+              "white",
+              "bald",
+              "dyed",
+              "other"
+            ],
+            "example": "blonde",
+            "nullable": true
+          },
+          "eyeColor": {
+            "type": "string",
+            "description": "Cor dos olhos",
+            "enum": [
+              "honey",
+              "light brown",
+              "dark brown",
+              "light blue",
+              "dark blue",
+              "light green",
+              "dark green",
+              "black",
+              "gray",
+              "hazel",
+              "amber",
+              "heterochromia",
+              "other"
+            ],
+            "example": "light brown",
+            "nullable": true
+          },
+          "preferredPosition": {
+            "type": "string",
+            "description": "Posição sexual preferida",
+            "enum": [
+              "top",
+              "bottom",
+              "versatile",
+              "versatile + top",
+              "versatile + bottom",
+              "no penetration"
+            ],
+            "example": "versatile",
+            "nullable": true
+          },
+          "tribe": {
+            "type": "array",
+            "description": "Tribos associadas ao usuário",
+            "example": [
+              "cub",
+              "chubby"
+            ],
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "twink",
+                "bear",
+                "chubby",
+                "chaser",
+                "daddy",
+                "jock",
+                "drag",
+                "otter",
+                "geek",
+                "leather",
+                "cub",
+                "chub",
+                "twunk",
+                "wolf",
+                "butch",
+                "femme",
+                "androgynous",
+                "trans",
+                "queer",
+                "non binary",
+                "genderfluid",
+                "other"
+              ]
+            }
+          },
+          "relationshipStatus": {
+            "type": "string",
+            "description": "Status de relacionamento",
+            "enum": [
+              "single",
+              "married",
+              "open_relationship",
+              "widowed",
+              "divorced",
+              "separated",
+              "complicated",
+              "polyamorous"
+            ],
+            "example": "single",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "user",
+          "avatarUrl",
+          "displayName",
+          "gender",
+          "country",
+          "city",
+          "bio",
+          "tags",
+          "age",
+          "height",
+          "weight",
+          "bodyHair",
+          "skinColor",
+          "hairColor",
+          "eyeColor",
+          "preferredPosition",
+          "tribe",
+          "relationshipStatus"
+        ]
+      },
       "UpdateUserProfileDto": {
         "type": "object",
         "properties": {}
@@ -847,7 +1463,22 @@
       },
       "CreateMessageDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "toUserId": {
+            "type": "string",
+            "description": "Id do usuário receptor da mensagem",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "content": {
+            "type": "string",
+            "description": "Conteúdo da mensagem",
+            "example": "Olá, tudo bem?"
+          }
+        },
+        "required": [
+          "toUserId",
+          "content"
+        ]
       }
     }
   }

@@ -5,33 +5,38 @@ import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRole } from './interfaces';
+import { UserProfile } from '../profiles/entities/user-profile.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(UserProfile)
+    private profileRepo: Repository<UserProfile>,
+  ) {}
 
   create(createUserDto: CreateUserDto) {
-    const user = this.repo.create({
+    const user = this.userRepo.create({
       ...createUserDto,
       role: createUserDto.role || UserRole.USER,
     });
-    return this.repo.save(user);
+    return this.userRepo.save(user);
   }
 
   findAll() {
-    return this.repo.find();
+    return this.userRepo.find();
   }
 
   findOne(id: string) {
-    return this.repo.findOne({ where: { id } });
+    return this.userRepo.findOne({ where: { id } });
   }
 
   findByEmail(email: string) {
-    return this.repo.findOne({ where: { email } });
+    return this.userRepo.findOne({ where: { email } });
   }
 
   findByEmailWithPassword(email: string) {
-    return this.repo.findOne({
+    return this.userRepo.findOne({
       where: { email },
       select: [
         'id',
@@ -41,7 +46,6 @@ export class UsersService {
         'isAnonymous',
         'isPremium',
         'socialProvider',
-        'avatarUrl',
         'createdAt',
         'updatedAt',
       ],
@@ -49,17 +53,32 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const user = await this.repo.preload({
+    const user = await this.userRepo.preload({
       id,
       ...updateUserDto,
     });
     if (!user) throw new NotFoundException(`User ${id} not found`);
-    return this.repo.save(user);
+    return this.userRepo.save(user);
   }
 
   async remove(id: string) {
     const user = await this.findOne(id);
     if (!user) return null;
-    return this.repo.remove(user);
+    return this.userRepo.remove(user);
+  }
+
+  async createUserWithProfile(dto: CreateUserDto) {
+    const user = await this.userRepo.save(this.userRepo.create(dto));
+    const profile = await this.profileRepo.save(
+      this.profileRepo.create({ user }),
+    );
+    return { ...user, profile };
+  }
+
+  async getUserWithProfile(id: string) {
+    return this.userRepo.findOne({
+      where: { id },
+      relations: ['profile'],
+    });
   }
 }

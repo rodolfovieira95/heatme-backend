@@ -1,7 +1,6 @@
-export type RecentMessage = {
+export interface RecentMessage {
   userId: string;
   username: string;
-  avatarUrl: string;
   lastMessage: string;
   timestamp: Date;
-};
+}
