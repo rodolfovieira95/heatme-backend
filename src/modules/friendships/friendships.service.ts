@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -97,12 +98,65 @@ export class FriendshipsService {
 
   getPendingFriendRequests(userId: string) {
     return this.repo.find({
-      where: {
-        receiver: { id: userId },
-        status: FriendshipStatus.PENDING,
-      },
-      relations: ['requester'],
+      where: [
+        { receiver: { id: userId }, status: FriendshipStatus.PENDING },
+        { requester: { id: userId }, status: FriendshipStatus.PENDING },
+      ],
+      relations: ['requester', 'receiver'],
       order: { createdAt: 'DESC' },
     });
+  }
+
+  async getFriend(userId: string, friendId: string) {
+    // Primeiro, verifica se o usuário existe
+    const user = await this.userRepo.findOneBy({ id: friendId });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    // Verifica se existe uma amizade aceita entre os usuários
+    const friendship = await this.repo.findOne({
+      where: [
+        {
+          requester: { id: userId },
+          receiver: { id: friendId },
+          status: FriendshipStatus.ACCEPTED,
+        },
+        {
+          requester: { id: friendId },
+          receiver: { id: userId },
+          status: FriendshipStatus.ACCEPTED,
+        },
+      ],
+    });
+
+    if (!friendship) {
+      throw new ForbiddenException('Usuários não são amigos');
+    }
+
+    // Retorna as informações do usuário
+    return user;
+  }
+
+  async updateFriendshipStatus(
+    friendshipId: string,
+    currentUserId: string,
+    status: FriendshipStatus,
+  ) {
+    const friendship = await this.repo.findOne({
+      where: {
+        id: friendshipId,
+        receiver: { id: currentUserId },
+        status: FriendshipStatus.PENDING,
+      },
+      relations: ['requester', 'receiver'],
+    });
+
+    if (!friendship) {
+      throw new NotFoundException('Solicitação de amizade não encontrada');
+    }
+
+    friendship.status = status;
+    return this.repo.save(friendship);
   }
 }

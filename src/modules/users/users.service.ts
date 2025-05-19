@@ -1,11 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRole } from './interfaces';
 import { UserProfile } from '../profiles/entities/user-profile.entity';
+import { ProfilesService } from '../profiles/profiles.service';
 
 @Injectable()
 export class UsersService {
@@ -13,18 +19,48 @@ export class UsersService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(UserProfile)
     private profileRepo: Repository<UserProfile>,
+    @Inject(forwardRef(() => ProfilesService))
+    private readonly profilesService: ProfilesService,
   ) {}
 
-  create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto) {
     const user = this.userRepo.create({
       ...createUserDto,
       role: createUserDto.role || UserRole.USER,
     });
-    return this.userRepo.save(user);
+    const savedUser = await this.userRepo.save(user);
+
+    // Criar um perfil vazio para o novo usuário
+    await this.profilesService.createOrUpdate({ userId: savedUser.id }, {});
+
+    return savedUser;
   }
 
   findAll() {
     return this.userRepo.find();
+  }
+
+  async searchUsers(query: string) {
+    if (!query) return [];
+
+    return this.userRepo.find({
+      where: [
+        { username: ILike(`%${query}%`) },
+        { email: ILike(`%${query}%`) },
+      ],
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        isAnonymous: true,
+        isPremium: true,
+        socialProvider: true,
+        role: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      take: 10,
+    });
   }
 
   findOne(id: string) {

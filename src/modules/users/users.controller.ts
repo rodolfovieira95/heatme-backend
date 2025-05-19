@@ -6,14 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Usuários')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -42,6 +53,18 @@ export class UsersController {
   })
   findAll() {
     return this.usersService.findAll();
+  }
+
+  @Get('search')
+  @ApiOperation({ summary: 'Buscar usuários por nome/username' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de usuários encontrados',
+    type: [CreateUserDto],
+  })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  searchUsers(@Query('q') query: string) {
+    return this.usersService.searchUsers(query);
   }
 
   @Get(':id')

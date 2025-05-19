@@ -28,6 +28,28 @@ import {
 export class FriendshipsController {
   constructor(private readonly service: FriendshipsService) {}
 
+  @ApiOperation({ summary: 'Listar amigos' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de amigos retornada com sucesso',
+  })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @Get()
+  listFriends(@CurrentUser() user: { userId: string }) {
+    return this.service.listFriends(user.userId);
+  }
+
+  @ApiOperation({ summary: 'Listar solicitações pendentes' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de solicitações pendentes retornada com sucesso',
+  })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  @Get('pending')
+  getPending(@CurrentUser() user: User) {
+    return this.service.getPendingFriendRequests(user.id);
+  }
+
   @ApiOperation({ summary: 'Enviar solicitação de amizade' })
   @ApiParam({
     name: 'userId',
@@ -40,25 +62,36 @@ export class FriendshipsController {
   @ApiResponse({ status: 400, description: 'Parâmetros inválidos' })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @Post(':userId')
-  sendRequest(@CurrentUser() user: User, @Param('userId') toUserId: string) {
-    return this.service.sendRequest(user.id, toUserId);
+  sendRequest(
+    @CurrentUser() user: { userId: string },
+    @Param('userId') toUserId: string,
+  ) {
+    return this.service.sendRequest(user.userId, toUserId);
   }
 
-  @ApiOperation({ summary: 'Atualizar status da amizade' })
-  @ApiParam({ name: 'userId', description: 'ID do usuário da amizade' })
+  @ApiOperation({ summary: 'Atualizar status da solicitação de amizade' })
+  @ApiParam({
+    name: 'id',
+    description: 'ID da solicitação de amizade',
+  })
   @ApiResponse({
     status: 200,
-    description: 'Status da amizade atualizado com sucesso',
+    description: 'Status da solicitação atualizado com sucesso',
   })
   @ApiResponse({ status: 400, description: 'Parâmetros inválidos' })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
-  @Patch(':userId')
-  updateStatus(
+  @ApiResponse({ status: 404, description: 'Solicitação não encontrada' })
+  @Patch('requests/:id')
+  updateRequestStatus(
     @CurrentUser() user: User,
-    @Param('userId') otherUserId: string,
+    @Param('id') friendshipId: string,
     @Body() dto: UpdateFriendshipStatusDto,
   ) {
-    return this.service.updateStatus(user.id, otherUserId, dto.status);
+    return this.service.updateFriendshipStatus(
+      friendshipId,
+      user.id,
+      dto.status,
+    );
   }
 
   @ApiOperation({ summary: 'Remover amizade' })
@@ -74,19 +107,16 @@ export class FriendshipsController {
     return this.service.removeFriendship(user.id, otherUserId);
   }
 
-  @ApiOperation({ summary: 'Listar amigos' })
+  @ApiOperation({ summary: 'Buscar informações de um amigo específico' })
+  @ApiParam({ name: 'userId', description: 'ID do amigo' })
   @ApiResponse({
     status: 200,
-    description: 'Lista de amigos retornada com sucesso',
+    description: 'Informações do amigo retornadas com sucesso',
   })
+  @ApiResponse({ status: 404, description: 'Amigo não encontrado' })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
-  @Get()
-  listFriends(@CurrentUser() user: User) {
-    return this.service.listFriends(user.id);
-  }
-
-  @Get('pending')
-  getPending(@CurrentUser() user: User) {
-    return this.service.getPendingFriendRequests(user.id);
+  @Get(':userId')
+  getFriend(@CurrentUser() user: User, @Param('userId') friendId: string) {
+    return this.service.getFriend(user.id, friendId);
   }
 }
