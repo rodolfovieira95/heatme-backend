@@ -11,7 +11,6 @@ import {
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { FriendshipsService } from './friendships.service';
-import { User } from '../users/entities/user.entity';
 import { UpdateFriendshipStatusDto } from './dto/update-friendship-status.dto';
 import {
   ApiTags,
@@ -46,8 +45,8 @@ export class FriendshipsController {
   })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @Get('pending')
-  getPending(@CurrentUser() user: User) {
-    return this.service.getPendingFriendRequests(user.id);
+  getPending(@CurrentUser() user: { userId: string }) {
+    return this.service.getPendingFriendRequests(user.userId);
   }
 
   @ApiOperation({ summary: 'Enviar solicitação de amizade' })
@@ -83,13 +82,13 @@ export class FriendshipsController {
   @ApiResponse({ status: 404, description: 'Solicitação não encontrada' })
   @Patch('requests/:id')
   updateRequestStatus(
-    @CurrentUser() user: User,
+    @CurrentUser() user: { userId: string },
     @Param('id') friendshipId: string,
     @Body() dto: UpdateFriendshipStatusDto,
   ) {
     return this.service.updateFriendshipStatus(
       friendshipId,
-      user.id,
+      user.userId,
       dto.status,
     );
   }
@@ -101,10 +100,10 @@ export class FriendshipsController {
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @Delete(':userId')
   removeFriend(
-    @CurrentUser() user: User,
+    @CurrentUser() user: { userId: string },
     @Param('userId') otherUserId: string,
   ) {
-    return this.service.removeFriendship(user.id, otherUserId);
+    return this.service.removeFriendship(user.userId, otherUserId);
   }
 
   @ApiOperation({ summary: 'Buscar informações de um amigo específico' })
@@ -116,7 +115,10 @@ export class FriendshipsController {
   @ApiResponse({ status: 404, description: 'Amigo não encontrado' })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   @Get(':userId')
-  getFriend(@CurrentUser() user: User, @Param('userId') friendId: string) {
-    return this.service.getFriend(user.id, friendId);
+  getFriend(
+    @CurrentUser() user: { userId: string },
+    @Param('userId') friendId: string,
+  ) {
+    return this.service.getFriend(user.userId, friendId);
   }
 }

@@ -13,7 +13,6 @@ import { SignupDto } from './dto/signup.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { Response } from 'express';
 import { NODE_ENV } from 'src/constants/envs';
-import { User } from '../users/entities/user.entity';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 @ApiTags('Autenticação')
@@ -87,7 +86,7 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
-  getMe(@CurrentUser() user: User) {
+  getMe(@CurrentUser() user: { userId: string }) {
     return user;
   }
 

@@ -4,7 +4,6 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { GetMessagesDto } from './dto/get-messages.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
-import { User } from '../users/entities/user.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('messages')
@@ -21,15 +20,15 @@ export class MessagesController {
   }
 
   @Get('recent')
-  async getRecentMessages(@CurrentUser() user: User) {
-    return this.messagesService.getRecentMessages(user.id);
+  async getRecentMessages(@CurrentUser() user: { userId: string }) {
+    return this.messagesService.getRecentMessages(user.userId);
   }
 
   @Get(':friendId')
   async getMessages(
-    @CurrentUser() user: User,
+    @CurrentUser() user: { userId: string },
     @Param() params: GetMessagesDto,
   ) {
-    return this.messagesService.getMessages(user.id, params.friendId);
+    return this.messagesService.getMessages(user.userId, params.friendId);
   }
 }
