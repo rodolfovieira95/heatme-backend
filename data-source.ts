@@ -6,10 +6,10 @@ import {
   DB_PASSWORD,
   DB_PORT,
   DB_USERNAME,
-} from 'src/constants/envs';
-import { UserProfile } from 'src/modules/profiles/entities/user-profile.entity';
-import { Friendship } from 'src/modules/friendships/entities/friendship.entity';
-import { ChatMessage } from 'src/modules/chatmessages/entities/chat-message.entity';
+} from './src/constants/envs';
+import { UserProfile } from './src/modules/profiles/entities/user-profile.entity';
+import { Friendship } from './src/modules/friendships/entities/friendship.entity';
+import { ChatMessage } from './src/modules/chatmessages/entities/chat-message.entity';
 
 export default new DataSource({
   type: 'postgres',

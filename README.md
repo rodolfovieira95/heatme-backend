@@ -98,3 +98,17 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 TODO: Só pode filtrar por determinado filtro se já esta definido no seu próprio peril esse filtro
+
+## Rodar o Projeto
+
+1. Clone o repositório com o comando:
+
+```code
+git clone git@github.com:rodolfovieira95/heatme-backend.git && cd heatme-backend
+```
+
+2. Instale as dependencias: `npm install`
+3. Crie o `.env`
+4. Execute o docker: `docker-compose up -d`
+5. Rode as migrações: `npm run migrations:run`
+6. Rode o projeto: `yarn start:dev`
